@@ -162,6 +162,32 @@ public class ChatProviderClientStub implements IChatProvider {
 
     @Override
     public void sendMessage(Chatter chatter, String message) {
+        try {
+            System.out.println("[INFORMATION]: sent 3 to server.");
+            this.out.println("3");
+            System.out.println("[INFORMATION]: server said: " + this.in.readLine());
 
+            String commandOrStatus = this.in.readLine();
+            System.out.println("[INFORMATION]: server said: " + commandOrStatus);
+
+            this.marshallChatter (chatter);
+
+            System.out.println("[INFORMATION]: server said: " + this.in.readLine());
+            System.out.println("[INFORMATION]: send \"" + message + "\" to server.");
+            this.out.println(message);
+
+            String sStatus = this.in.readLine();
+            System.out.println("[INFORMATION]: server said: " + sStatus);
+
+            if (sStatus.equalsIgnoreCase("1") == true) {
+                System.out.println("[INFORMATION]: .sendMessage(Chatter chatter, String message) executed successfully.");
+            } else if (sStatus.equalsIgnoreCase("0") == true) {
+                throw new Exception(this.in.readLine());
+            }
+
+        } catch (Throwable t) {
+            System.out.println("[ERROR]: bei .sendMessage(Chatter chatter, String message) ist folgender Fehler aufgetreten:");
+            t.printStackTrace();
+        }
     }
 }
