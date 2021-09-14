@@ -60,8 +60,9 @@ public class ChatterServerStub implements Runnable {
         this.out.println("int getId() selected");
 
         try {
-            this.out.println(this.chatter.getId());
+            int id = this.chatter.getId();
             this.out.println("1");
+            this.out.println(id);
         } catch (Exception e) {
             this.out.println("0");
             this.out.println("FachlicherFehler: " + e.getMessage());
@@ -72,8 +73,9 @@ public class ChatterServerStub implements Runnable {
         this.out.println("String getName() selected");
 
         try {
-            this.out.println(this.chatter.getName());
+            String name = this.chatter.getName();
             this.out.println("1");
+            this.out.println(name);
         } catch (Exception e) {
             this.out.println("0");
             this.out.println("FachlicherFehler: " + e.getMessage());

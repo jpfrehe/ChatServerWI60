@@ -20,7 +20,6 @@ public class ChatterClientStub implements Chatter {
                 return;
             }
 
-            // TODO: check if header exist
             String headerLine;
             while ((headerLine = this.in.readLine()) != null) {
                 if (headerLine.equalsIgnoreCase("----")) {
@@ -60,16 +59,91 @@ public class ChatterClientStub implements Chatter {
 
     @Override
     public int getId() {
-        return 0;
+        try {
+            System.out.println("[INFORMATION]: send \"1\" to server.");
+            this.out.println("1");
+            System.out.println("[INFORMATION]: server said: " + this.in.readLine());
+
+            String sStatus = this.in.readLine();
+            System.out.println("[INFORMATION]: server said: " + sStatus);
+
+            if (sStatus.equalsIgnoreCase("1") == true) {
+                System.out.println("[INFORMATION]: .getId() executed successfully.");
+                return Integer.valueOf(this.in.readLine());
+            } else if (sStatus.equalsIgnoreCase("0") == true) {
+                throw new RuntimeException(this.in.readLine());
+            } else {
+                throw new RuntimeException("This should never happen....");
+            }
+
+        } catch (RuntimeException e) {
+            System.out.println("[ERROR]: bei .getId() ist folgender !!fachlicher!! Fehler aufgetreten:");
+            throw e;
+        } catch (Throwable t) {
+            System.out.println("[ERROR]: bei .getId() ist folgender Fehler aufgetreten:");
+            t.printStackTrace();
+            throw new RuntimeException("Kommunikationsfehler....");
+        }
     }
 
     @Override
     public String getName() {
-        return null;
+        try {
+            System.out.println("[INFORMATION]: send \"2\" to server.");
+            this.out.println("2");
+            System.out.println("[INFORMATION]: server said: " + this.in.readLine());
+
+            String sStatus = this.in.readLine();
+            System.out.println("[INFORMATION]: server said: " + sStatus);
+
+            if (sStatus.equalsIgnoreCase("1") == true) {
+                System.out.println("[INFORMATION]: .getName() executed successfully.");
+                return this.in.readLine();
+            } else if (sStatus.equalsIgnoreCase("0") == true) {
+                throw new RuntimeException(this.in.readLine());
+            } else {
+                throw new RuntimeException("This should never happen....");
+            }
+
+        } catch (RuntimeException e) {
+            System.out.println("[ERROR]: bei .getName() ist folgender !!fachlicher!! Fehler aufgetreten:");
+            throw e;
+        } catch (Throwable t) {
+            System.out.println("[ERROR]: bei .getName() ist folgender Fehler aufgetreten:");
+            t.printStackTrace();
+            throw new RuntimeException("Kommunikationsfehler....");
+        }
     }
 
     @Override
     public void receiveMessage(String message) {
+        try {
+            System.out.println("[INFORMATION]: send \"3\" to server.");
+            this.out.println("3");
+            System.out.println("[INFORMATION]: server said: " + this.in.readLine());
+            System.out.println("[INFORMATION]: server said: " + this.in.readLine());
 
+            System.out.println("[INFORMATION]: send \"" + message + "\" to server.");
+            this.out.println(message);
+
+            String sStatus = this.in.readLine();
+            System.out.println("[INFORMATION]: server said: " + sStatus);
+
+            if (sStatus.equalsIgnoreCase("1") == true) {
+                System.out.println("[INFORMATION]: .getName() executed successfully.");
+            } else if (sStatus.equalsIgnoreCase("0") == true) {
+                throw new RuntimeException(this.in.readLine());
+            } else {
+                throw new RuntimeException("This should never happen....");
+            }
+
+        } catch (RuntimeException e) {
+            System.out.println("[ERROR]: bei .receiveMessage(String message) ist folgender !!fachlicher!! Fehler aufgetreten:");
+            throw e;
+        } catch (Throwable t) {
+            System.out.println("[ERROR]: bei .receiveMessage(String message) ist folgender Fehler aufgetreten:");
+            t.printStackTrace();
+            throw new RuntimeException("Kommunikationsfehler....");
+        }
     }
 }
