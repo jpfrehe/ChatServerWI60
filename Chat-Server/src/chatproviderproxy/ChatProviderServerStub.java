@@ -18,10 +18,13 @@ public class ChatProviderServerStub implements Runnable {
 
     private Map<Integer, Chatter> chatterMap = new HashMap<>();
 
+    private String who;
+
 
     public ChatProviderServerStub(Socket socket, IChatProvider chatProvider) {
         this.socket = socket;
         this.chatProvider = chatProvider;
+        this.who = this.socket.getInetAddress().getHostAddress() + ":" + this.socket.getLocalPort();
     }
 
 
@@ -178,6 +181,7 @@ public class ChatProviderServerStub implements Runnable {
         } catch (Exception e) {
             System.out.println("[ERROR]: beim lesen ist folgender Fehler aufgetreten:");
             e.printStackTrace();
+            System.out.println(this.who + " wars.......");
         }
     }
 }
