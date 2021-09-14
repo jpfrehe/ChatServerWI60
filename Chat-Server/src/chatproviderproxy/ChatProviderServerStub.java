@@ -34,29 +34,14 @@ public class ChatProviderServerStub implements Runnable {
         if (this.chatterMap.containsKey(communicationId) == false) {
             // Hole den Client vom client
 
-            this.out.println("!- Gib mir den Chatter{id: int, name: String}, bitte.");
+            this.out.println("!- Gib mir den Chatter-Port (int), bitte.");
 
-            String sId = this.in.readLine();
-            String sName = this.in.readLine();
+            String sPort = this.in.readLine();
 
-            int id = Integer.valueOf(sId);
+            int port = Integer.valueOf(sPort);
+            Chatter chatter = new ChatterClientStub(this.socket.getInetAddress().getHostAddress(), port);
 
-            this.chatterMap.put(communicationId, new Chatter() {
-                @Override
-                public int getId() {
-                    return id;
-                }
-
-                @Override
-                public String getName() {
-                    return sName;
-                }
-
-                @Override
-                public void receiveMessage(String message) {
-                    System.out.println("[INFORMATION]: received message \"" + message + "\" for Chatter{id=" + this.getId() + ", name=" + this.getName() + "}");
-                }
-            });
+            this.chatterMap.put(communicationId, chatter);
         } else {
             this.out.println("Chatter konnte resolved werden.");
         }
@@ -87,7 +72,17 @@ public class ChatProviderServerStub implements Runnable {
 
     public void pleaseKill () {
         this.out.println("killConnection selected");
+        this.out.println("!- Who do I need to kill?");
+
+
         try {
+
+            String sCommIdOrFinishLine;
+            while ((sCommIdOrFinishLine = this.in.readLine()).equalsIgnoreCase("----") == false) {
+                int commId = Integer.valueOf(sCommIdOrFinishLine);
+                ((ChatterClientStub)this.chatterMap.get(commId)).killConnection ();
+            }
+
             this.out.println("0");
             this.in.close();
             this.out.close();

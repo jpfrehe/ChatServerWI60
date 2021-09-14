@@ -57,6 +57,21 @@ public class ChatterClientStub implements Chatter {
         }
     }
 
+    public void killConnection () {
+        System.out.println("[INFORMATION]: sent 0 (kill) to server.");
+        this.out.println("0");
+
+        try {
+            System.out.println("[INFORMATION]: server said: " + this.in.readLine());
+            this.in.close();
+            this.out.close();
+            this.socket.close();
+            System.out.println("[INFORMATION]: ChatterClientStub connection closed.");
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
     @Override
     public int getId() {
         try {

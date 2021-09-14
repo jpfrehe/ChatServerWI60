@@ -29,6 +29,6 @@ public class ActualChatter implements Chatter {
 
     @Override
     public void receiveMessage(String message) {
-
+        System.err.println(message);
     }
 }
